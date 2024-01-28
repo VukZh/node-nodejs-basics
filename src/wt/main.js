@@ -10,33 +10,32 @@ const performCalculations = async () => {
 
     const cpusNumber = cpus().length
 
-    const res = new Array(cpusNumber)
-
-    const getAllResults = () => res.filter(r => r.status).length === cpusNumber
+    const workersArray = []
 
     for (let i = 0; i < cpusNumber; i++) {
-        const worker = new Worker(workerFile, {
-            workerData: 10 + i
-        })
-        worker.on("message", (fiboResult) => {
-            res[i] = {
-                status: "resolved",
-                data: fiboResult
-            }
-            if (getAllResults()) {
-                console.log(res)
-            }
-        })
-        worker.on("error", (msg) => {
-            res[i] = {
-                status: "error",
-                data: null
-            }
-            if (getAllResults()) {
-                console.log(res)
-            }
-        })
+        const createPromisifyWorker = () => {
+            return new Promise(resolve => {
+                const worker = new Worker(workerFile, {
+                    workerData: 10 + i
+                })
+                worker.on("message", (fiboResult) => {
+                    resolve ({
+                        status: "resolved",
+                        data: fiboResult
+                    })
+                })
+                worker.on("error", (msg) => {
+                    resolve ({
+                        status: "error",
+                        data: null
+                    })
+                })
+            })
+        }
+        workersArray.push(createPromisifyWorker())
     }
+    const res = await Promise.all(workersArray)
+    console.log(res)
 };
 
 await performCalculations();
