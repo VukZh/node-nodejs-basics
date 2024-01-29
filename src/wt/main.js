@@ -19,13 +19,13 @@ const performCalculations = async () => {
                     workerData: 10 + i
                 })
                 worker.on("message", (fiboResult) => {
-                    resolve ({
+                    resolve({
                         status: "resolved",
                         data: fiboResult
                     })
                 })
                 worker.on("error", (msg) => {
-                    resolve ({
+                    resolve({
                         status: "error",
                         data: null
                     })

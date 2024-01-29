@@ -1,20 +1,20 @@
 import path from "path"
 import {release, version} from "os"
 import {createServer as createServerHttp} from "http"
+import {createRequire} from "module"
 
 import ('./files/c.js')
 
-import objectA from './files/a.json' assert {type: "json"}
-import objectB from './files/b.json' assert {type: "json"}
+const require = createRequire(import.meta.url)
 
 const random = Math.random();
 
 let unknownObject;
 
 if (random > 0.5) {
-    unknownObject = objectA
+    unknownObject = require('./files/a.json')
 } else {
-    unknownObject = objectB
+    unknownObject = require('./files/b.json')
 }
 
 
