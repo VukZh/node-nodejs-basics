@@ -9,7 +9,7 @@ const list = async () => {
 
     try {
         const filesArray = await readdir(filesDir);
-        console.log("files from 'files' directory ", filesArray)
+        console.log(filesArray)
     } catch (error) {
         throw new Error("FS operation failed")
     }

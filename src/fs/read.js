@@ -10,7 +10,7 @@ const read = async () => {
     try {
         await access(readFilePath);
         const readFileContent = await readFile(readFilePath, {encoding: "ascii"});
-        console.log("fileToRead.txt: ", readFileContent)
+        console.log(readFileContent)
     } catch (error) {
         throw new Error("FS operation failed")
     }

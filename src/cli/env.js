@@ -6,7 +6,7 @@ const parseEnv = () => {
             envsArray.push(`${k}=${v}`)
         }
     }
-    console.log("envs: ", envsArray.join('; '))
+    console.log(envsArray.join('; '))
 };
 
 parseEnv();
